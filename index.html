@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Υπολογισμός ΦΠΑ και καθαρού ποσού</title>
+</head>
+<body>
+    <h1>Υπολογισμός ΦΠΑ και καθαρού ποσού</h1>
+    <form id="taxForm">
+        <label for="amount">Ποσό:</label>
+        <input type="number" id="amount" name="amount" step="0.01" required><br><br>
+        
+        <input type="radio" id="vat24" name="vat" value="0.24" checked>
+        <label for="vat24">24%</label><br>
+        
+        <input type="radio" id="vat13" name="vat" value="0.13">
+        <label for="vat13">13%</label><br><br>
+        
+        <button type="submit">Υπολογισμός</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('taxForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var amount = parseFloat(document.getElementById('amount').value);
+            var vatRate = parseFloat(document.querySelector('input[name="vat"]:checked').value);
+            var vat = amount / (1 + vatRate) * vatRate;
+            var netAmount = amount - vat;
+            document.getElementById('result').innerHTML = `
+                <p>Καθαρό ποσό: ${netAmount.toFixed(2)} €</p>
+                <p>ΦΠΑ: ${vat.toFixed(2)} €</p>
+            `;
+        });
+    </script>
+</body>
+</html>
